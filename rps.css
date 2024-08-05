@@ -1,0 +1,45 @@
+body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(to right, #f8b500, #fceabb);
+        }
+        #startGameDiv, #game, #showGame, #scoreBoard, #gameContinueOrExit, #showResult {
+            margin: 20px;
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #f8b500;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #d99400;
+        }
+        label, input[type="radio"] {
+            margin-right: 10px;
+        }
+        #scoreBoard {
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+        }
+        #scoreBoard p {
+            margin: 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
