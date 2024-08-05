@@ -1,15 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="rps.css">
     <title>Rock Paper Scissors</title>
-</head>
+  </head>
 
-<body>
+  <body>
+    <div id="game">
+        <h2>Welcome!</h2>
+    <h4>This is the game of Rock Paper and Scissors</h4>
+    <h5>The most sophisticated game ever made!</h5>
 
-</body>
-<script src="script_rockPaperScissorsGame.js"> </script>
-
+    <div id="startGameDiv">
+        <button id="startGame">Start Game</button>
+        <div>
+            <label for="rounds">Select number of rounds:</label>
+            <input type="radio" id="threeRounds" name="rounds" value="3" checked> 3
+            <input type="radio" id="fiveRounds" name="rounds" value="5"> 5
+            <input type="radio" id="sevenRounds" name="rounds" value="7"> 7
+        </div>
+    </div>
+    
+    <div id="gameContinueOrExit"></div>
+    <div id="showGame"></div>
+    <div id="showResult"></div>
+    <div id="scoreBoard">
+        <p>Human Score: <span id="humanScore">0</span></p>
+        <p>Computer Score: <span id="computerScore">0</span></p>
+    </div>
+    <div id="game"></div>
+    
+  </body>
+  <script src="script_rockPaperScissorsGame.js"></script>
 </html>
