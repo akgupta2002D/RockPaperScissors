@@ -1,71 +1,112 @@
+const gameHands = ["rock", "paper", "scissors"];
 
-const gameHands = ["rock", "paper", "scissors"]
+        let getComputerChoice = () => {
+            let randomComputerInt = Math.floor((Math.random() * 3));
+            return gameHands[randomComputerInt];
+        };
 
-let getComputerChoice = () => {
-    let randomComputerInt = Math.floor((Math.random() *3) );
-    return gameHands[randomComputerInt]
-} 
+        let humanScore = 0;
+        let computerScore = 0;
+        let rounds = 3; // Default to 3 rounds
+        let currentRound = 0; // Track current round
 
-let getHumanChoice = () => {
-    console.log("0 - Rock, 1 - Paper, 2 - Scissors")
-    let choice = parseInt(prompt("Enter your choice for the round "));
-    while (choice < 0 || choice > 2 ){
-        choice = parseInt(prompt("Enter a correct choice: "));
-    }
-    return gameHands[choice];
-}
+        function playRound(humanChoice, computerChoice) {
+            if (humanChoice == computerChoice) {
+                return `It's a tie! ${computerChoice} == ${humanChoice}`;
+            } else if (humanChoice == gameHands[0] && computerChoice == gameHands[1] ||
+                       humanChoice == gameHands[1] && computerChoice == gameHands[2] ||
+                       humanChoice == gameHands[2] && computerChoice == gameHands[0]) {
+                computerScore += 1;
+                return `You lose! ${computerChoice} beats ${humanChoice}`;
+            } else {
+                humanScore += 1;
+                return `You win! ${humanChoice} beats ${computerChoice}`;
+            }
+        }
 
-let humanScore = 0;
-let computerScore = 0;
+        function updateScoreBoard() {
+            document.getElementById('humanScore').textContent = humanScore;
+            document.getElementById('computerScore').textContent = computerScore;
+        }
 
-function playRound(humanChoice, computerChoice) {
-    if (humanChoice == computerChoice){
-        
-        return `Its a tie! ${computerChoice} == ${humanChoice}`;
-    }
-    else if (humanChoice == gameHands[0] && computerChoice == gameHands[1]){
-        computerScore += 1;
-        return `You lose! ${computerChoice} beats ${humanChoice}`;
-    }
-    else if (humanChoice == gameHands[1] && computerChoice == gameHands[2]){
-        computerScore += 1;
-        return `You lose! ${computerChoice} beats ${humanChoice}`;
-    }
-    else if (humanChoice == gameHands[2] && computerChoice == gameHands[0]){
-        computerScore += 1;
-        return `You lose! ${computerChoice} beats ${humanChoice}`;
-    }
-    else{
-        humanScore += 1;
-        return `You Win! ${humanChoice} beats ${computerChoice}`
-    }
-}
+        const playGameButton = document.getElementById('startGame');
+        const resultDiv = document.getElementById('showResult');
+        const gameOptions = document.getElementById("gameContinueOrExit");
+        const playAgain = document.createElement("button");
+        const exit = document.createElement("button");
+        const showGameDiv = document.getElementById("showGame");
+        const startGameDiv = document.getElementById("startGameDiv");
 
+        const rockButton = document.createElement("button");
+        const paperButton = document.createElement("button");
+        const scissorsButton = document.createElement("button");
+        const startAnotherGameButton = document.createElement("button"); // New button
 
-function playGame() {
+        playGameButton.addEventListener("click", () => {
+            rounds = document.querySelector('input[name="rounds"]:checked').value;
+            startGameDiv.style.display = 'none';
+            playGame();
+        });
 
-    console.log("WELCOME TO ROCK PAPER AND SCISSORS")
-    console.log("Let's Find out if you are lucky??")
-    console.log("===================================")
+        function playGame() {
+            resultDiv.textContent = "";
+            gameOptions.textContent = "";
 
+            rockButton.textContent = "rock";
+            paperButton.textContent = "paper";
+            scissorsButton.textContent = "scissors";
 
-     
-    for (let i = 1; i <= 5; i++){
-        const humanChoice = getHumanChoice();
-        const computerChoice = getComputerChoice();
-        console.log(playRound(humanChoice, computerChoice));
-        console.log(`=========== Round: ${i}===============`)
+            showGameDiv.innerHTML = ''; // Clear previous buttons
+            showGameDiv.appendChild(rockButton);
+            showGameDiv.appendChild(paperButton);
+            showGameDiv.appendChild(scissorsButton);
 
-    }
+            // Add event listeners to buttons
+            rockButton.onclick = () => handlePlayerChoice('rock');
+            paperButton.onclick = () => handlePlayerChoice('paper');
+            scissorsButton.onclick = () => handlePlayerChoice('scissors');
 
-    console.log(`=========== GAME OVER ===============`)
+            playAgain.textContent = "Play Again";
+            exit.textContent = "Exit";
 
-    console.log(`Final Scores: `)
-    console.log(`Human Score = ${humanScore}`)
-    console.log(`Computer Score: ${computerScore}`)
-    console.log(`Ties: ${5 - (computerScore + humanScore)}`)
+            gameOptions.innerHTML = ''; // Clear previous options
+            gameOptions.appendChild(playAgain);
+            gameOptions.appendChild(exit);
 
-}
+            playAgain.onclick = () => playGame();
+            exit.onclick = () => endGame();
 
-playGame()
+            updateScoreBoard(); // Ensure scoreboard is up-to-date
+        }
 
+        function handlePlayerChoice(choice) {
+            const computerChoice = getComputerChoice();
+            resultDiv.textContent = playRound(choice, computerChoice);
+            updateScoreBoard();
+            currentRound++;
+            if (currentRound >= rounds) {
+                endGame();
+            }
+        }
+
+        function endGame() {
+            showGameDiv.textContent = "";
+            resultDiv.textContent = "";
+            gameOptions.textContent = "";
+
+            startAnotherGameButton.textContent = "Start Another Game";
+            document.getElementById('game').appendChild(startAnotherGameButton);
+
+            startAnotherGameButton.onclick = () => {
+                startAnotherGameButton.remove();
+                resetGame();
+            };
+        }
+
+        function resetGame() {
+            humanScore = 0;
+            computerScore = 0;
+            currentRound = 0; // Reset the round count
+            updateScoreBoard();
+            startGameDiv.style.display = 'block';
+        }
